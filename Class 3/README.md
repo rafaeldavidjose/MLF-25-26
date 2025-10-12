@@ -1,4 +1,4 @@
-# Decision Tree Classifier by "hand"
+# Decision Tree Classifier by "hand" (Report)
 
 ## What is a decision tree
 A DT is a model that tries to make logic decisions based on question like:
@@ -13,10 +13,10 @@ Each **node** of the tree asks a question about a **feature**, and at the end (*
 
 ```calculate_entropy(y)```
 
-This calculates the entropy from the y vector given, that is, the degree of disorder or mixing between classes.
+This calculates entropy from the given y vector, that is, the mixture between classes.
 
-- If there's only 1 class, ```entropy=0)``` (Pure).
-- If there's like a 50/50 between 2 classes, the ```entropy=1)``` (maximum uncertainly).
+- If there's only 1 class, ```entropy=0``` (Pure).
+- If there's like a 50/50 between 2 classes, the ```entropy=1``` (maximum uncertainly).
 
 ``` vals, counts = np.unique(y, return_counts=True)``` - Founds the **unique classes** (ex.: ```[True, False]```) and how many times each one shows.
 
@@ -73,10 +73,10 @@ If after that there’s only **one unique value**, it means all examples have th
 In that case, there’s no possible threshold to split.
 
 ``` python
-cands = (uniq[:-1] + uniq[1:]) / 2.0
+midpoints = (uniq[:-1] + uniq[1:]) / 2.0
 ```
 
-"Candidates", generate the **midpoints** between consecutive values, for example: ```[10, 20, 30] --> (10+20)/2=15, (20+30)/2=25 --> [15, 25]```
+Generate the **midpoints** between consecutive values, for example: ```[10, 20, 30] --> (10+20)/2=15, (20+30)/2=25 --> [15, 25]```
 
 ``` python
 base_e = calculate_entropy(y)
@@ -85,7 +85,7 @@ base_e = calculate_entropy(y)
 Calculate entropy before dividing.
 
 ```
-for thr in cands:
+for thr in midpoints:
     left_mask = x <= thr
     right_mask = ~left_mask
 ```
@@ -204,7 +204,7 @@ Returns the complete node.
 ## Predict One Sample
 ```predict_one(tree, row)```
 
-Traverse the tree to a **row** until you reach the final class.
+Traverse a **row** of the tree until reach the final class.
 
 For example:
 
